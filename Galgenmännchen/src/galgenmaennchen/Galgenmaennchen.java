@@ -12,11 +12,11 @@ public class Galgenmaennchen {
 	private char letter;
 	private List<String> letters = new ArrayList<>();
 	private String solution;
-	private String guessedWord;
+	private String guessedWord = "";
 	
 	public void startGame() {
-		solution = readSolution();
-		guessedWord = garbleWord();
+		readSolution();
+		garbleWord();
 		explainGame();
 		
 		while (!correctWord && leftMistrials > 0) {
@@ -59,12 +59,10 @@ public class Galgenmaennchen {
 		scan.close();
 	}
 	
-	private String readSolution() {
+	private void readSolution() {
 		System.out.println("Welcome to the game 'Galgenmaennchen'!");
 		System.out.println("Please let the game host enter a word first:");
-		String word = scan.nextLine().toLowerCase();
-		
-		return word;
+		solution = scan.nextLine().toLowerCase();
 	}
 	
 	private void explainGame() {
@@ -73,9 +71,7 @@ public class Galgenmaennchen {
 		System.out.println("Letter\t\tOutput\t\tLeft mistrials");
 	}
 	
-	private String garbleWord() {
-		String guessedWord = "";
-		
+	private void garbleWord() {
 		for (int i = 0; i < solution.length(); i++) {
 			if (solution.charAt(i) == ' ') {
 				guessedWord += solution.charAt(i);
@@ -83,8 +79,6 @@ public class Galgenmaennchen {
 				guessedWord += "-";
 			}
 		}
-		
-		return guessedWord;
 	}
 	
 	private boolean checkIfNewLetter() {
