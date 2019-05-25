@@ -21,21 +21,7 @@ public class Galgenmaennchen {
 		
 		while (!correctWord && leftMistrials > 0) {
 			letter = scan.next().toLowerCase().charAt(0);
-
-			if (checkIfNewLetter()) {
-				letters.add(letter + "");
-				String newAnswer = updateAnswer();
-				calculateLeftMistrials(newAnswer);
-				
-				answer = newAnswer;
-				System.out.println("\t\t" + answer + "\t\t" + leftMistrials);
-				
-				if (leftMistrials == 0) {
-					System.out.println("I'm sorry but you couldn't guess the right word. The host wins!");
-				} else {
-					checkForCorrectAnswer();
-				}
-			}
+			printGameStatus();
 		}
 		scan.close();
 	}
@@ -46,12 +32,6 @@ public class Galgenmaennchen {
 		solution = scan.nextLine().toLowerCase();
 	}
 	
-	private void explainGame() {
-		System.out.println("Please enter each round a letter of your choice. Try to guess the word!");
-		System.out.println("(If you type in more than a letter then the first letter will be used.)\n");
-		System.out.println("Letter\t\tOutput\t\tLeft mistrials");
-	}
-	
 	private void garbleWord() {
 		for (int i = 0; i < solution.length(); i++) {
 			if (solution.charAt(i) == ' ') {
@@ -59,6 +39,25 @@ public class Galgenmaennchen {
 			} else {
 				answer += "-";
 			}
+		}
+	}
+	
+	private void explainGame() {
+		System.out.println("Please enter each round a letter of your choice. Try to guess the word!");
+		System.out.println("(If you type in more than a letter then the first letter will be used.)\n");
+		System.out.println("Letter\t\tOutput\t\tLeft mistrials");
+	}
+	
+	private void printGameStatus() {
+		if (checkIfNewLetter()) {
+			letters.add(letter + "");
+			String newAnswer = updateAnswer();
+			calculateLeftMistrials(newAnswer);
+			
+			answer = newAnswer;
+			System.out.println("\t\t" + answer + "\t\t" + leftMistrials);
+			
+			endGame();
 		}
 	}
 	
@@ -90,11 +89,18 @@ public class Galgenmaennchen {
 		}
 	}
 	
+	private void endGame() {
+		if (leftMistrials == 0) {
+			System.out.println("I'm sorry but you couldn't guess the right word. The host wins!");
+		} else {
+			checkForCorrectAnswer();
+		}
+	}
+	
 	private void checkForCorrectAnswer() {
 		if (solution.equals(answer)) {
 			correctWord = true;
 			System.out.println("Congrats! You guessed the right word!");
 		}
 	}
-
 }
