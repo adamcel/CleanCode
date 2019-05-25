@@ -12,7 +12,7 @@ public class Galgenmaennchen {
 	private char letter;
 	private List<String> letters = new ArrayList<>();
 	private String solution;
-	private String answer = "";
+	private String answer;
 	
 	public void startGame() {
 		readSolution();
@@ -33,13 +33,15 @@ public class Galgenmaennchen {
 	}
 	
 	private void garbleWord() {
+		StringBuilder result = new StringBuilder(solution.length());
 		for (int i = 0; i < solution.length(); i++) {
 			if (solution.charAt(i) == ' ') {
-				answer += solution.charAt(i);
+				result.append(solution.charAt(i));
 			} else {
-				answer += "-";
+				result.append("-");
 			}
 		}
+		answer = result.toString();
 	}
 	
 	private void explainGame() {
@@ -72,15 +74,15 @@ public class Galgenmaennchen {
 	}
 	
 	private String updateAnswer() {
-		String result = "";
+		StringBuilder result = new StringBuilder(solution.length());
 		for (int j = 0; j < solution.length(); j++) {
 			if (letter == solution.charAt(j)) {
-				result += letter;
+				result.append(letter);
 			} else {
-				result += answer.charAt(j);
+				result.append(answer.charAt(j));
 			}
 		}
-		return result;
+		return result.toString();
 	}
 	
 	private void calculateLeftMistrials(String newGuessedWord) {
