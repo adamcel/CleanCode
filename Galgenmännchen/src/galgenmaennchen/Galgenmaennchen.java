@@ -21,40 +21,21 @@ public class Galgenmaennchen {
 		
 		while (!correctWord && leftMistrials > 0) {
 			letter = scan.next().toLowerCase().charAt(0);
-			String newGuessedWord = "";
 
 			if (checkIfNewLetter()) {
 				letters.add(letter + "");
-				// Checking if the letter was correct and change the guessed word accordingly.
-				for (int j = 0; j < solution.length(); j++) {
-					if (letter == solution.charAt(j)) {
-						newGuessedWord += letter;
-					} else {
-						newGuessedWord += guessedWord.charAt(j);
-					}
-				}
-
-				// Calculating the left mistrials
-				if (guessedWord.equals(newGuessedWord)) {
-					leftMistrials--;
-				}
+				String newGuessedWord = updateGuessedWord();
+				calculateLeftMistrials(newGuessedWord);
+				
+				guessedWord = newGuessedWord;
+				System.out.println("\t\t" + guessedWord + "\t\t" + leftMistrials);
 				
 				if (leftMistrials == 0) {
-					System.out.println("\t\t" + guessedWord + "\t\t" + leftMistrials);
 					System.out.println("I'm sorry but you couldn't guess the right word. The host wins!");
 				} else {
-					guessedWord = newGuessedWord;
-					System.out.println("\t\t" + guessedWord + "\t\t" + leftMistrials);
-
-					// Guessed the word?
-					if (solution.equals(guessedWord)) {
-						correctWord = true;
-						System.out.println("Congrats! You guessed the right word!");
-					}
+					checkForCorrectAnswer();
 				}
-
 			}
-			
 		}
 		scan.close();
 	}
@@ -89,6 +70,31 @@ public class Galgenmaennchen {
 			}
 		}
 		return true;
+	}
+	
+	private String updateGuessedWord() {
+		String newGuessedWord = "";
+		for (int j = 0; j < solution.length(); j++) {
+			if (letter == solution.charAt(j)) {
+				newGuessedWord += letter;
+			} else {
+				newGuessedWord += guessedWord.charAt(j);
+			}
+		}
+		return newGuessedWord;
+	}
+	
+	private void calculateLeftMistrials(String newGuessedWord) {
+		if (guessedWord.equals(newGuessedWord)) {
+			leftMistrials--;
+		}
+	}
+	
+	private void checkForCorrectAnswer() {
+		if (solution.equals(guessedWord)) {
+			correctWord = true;
+			System.out.println("Congrats! You guessed the right word!");
+		}
 	}
 
 }
