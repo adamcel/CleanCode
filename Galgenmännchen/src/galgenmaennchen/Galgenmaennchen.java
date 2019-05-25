@@ -12,7 +12,7 @@ public class Galgenmaennchen {
 	private char letter;
 	private List<String> letters = new ArrayList<>();
 	private String solution;
-	private String guessedWord = "";
+	private String answer = "";
 	
 	public void startGame() {
 		readSolution();
@@ -24,11 +24,11 @@ public class Galgenmaennchen {
 
 			if (checkIfNewLetter()) {
 				letters.add(letter + "");
-				String newGuessedWord = updateGuessedWord();
-				calculateLeftMistrials(newGuessedWord);
+				String newAnswer = updateAnswer();
+				calculateLeftMistrials(newAnswer);
 				
-				guessedWord = newGuessedWord;
-				System.out.println("\t\t" + guessedWord + "\t\t" + leftMistrials);
+				answer = newAnswer;
+				System.out.println("\t\t" + answer + "\t\t" + leftMistrials);
 				
 				if (leftMistrials == 0) {
 					System.out.println("I'm sorry but you couldn't guess the right word. The host wins!");
@@ -55,9 +55,9 @@ public class Galgenmaennchen {
 	private void garbleWord() {
 		for (int i = 0; i < solution.length(); i++) {
 			if (solution.charAt(i) == ' ') {
-				guessedWord += solution.charAt(i);
+				answer += solution.charAt(i);
 			} else {
-				guessedWord += "-";
+				answer += "-";
 			}
 		}
 	}
@@ -72,26 +72,26 @@ public class Galgenmaennchen {
 		return true;
 	}
 	
-	private String updateGuessedWord() {
-		String newGuessedWord = "";
+	private String updateAnswer() {
+		String result = "";
 		for (int j = 0; j < solution.length(); j++) {
 			if (letter == solution.charAt(j)) {
-				newGuessedWord += letter;
+				result += letter;
 			} else {
-				newGuessedWord += guessedWord.charAt(j);
+				result += answer.charAt(j);
 			}
 		}
-		return newGuessedWord;
+		return result;
 	}
 	
 	private void calculateLeftMistrials(String newGuessedWord) {
-		if (guessedWord.equals(newGuessedWord)) {
+		if (answer.equals(newGuessedWord)) {
 			leftMistrials--;
 		}
 	}
 	
 	private void checkForCorrectAnswer() {
-		if (solution.equals(guessedWord)) {
+		if (solution.equals(answer)) {
 			correctWord = true;
 			System.out.println("Congrats! You guessed the right word!");
 		}
