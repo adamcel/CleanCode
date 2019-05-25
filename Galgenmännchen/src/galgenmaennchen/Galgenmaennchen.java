@@ -6,24 +6,25 @@ import java.util.Scanner;
 
 public class Galgenmaennchen {
 	
+	private Scanner scan = new Scanner(System.in);
+	private boolean correctWord = false;
+	private int leftMistrials = 10;
+	private char letter;
+	private List<String> letters = new ArrayList<>();
+	private String word;
+	private String guessedWord;
+	
 	public void startGame() {
-		Scanner scan = new Scanner(System.in);
-
-		String word = start(scan);
+		word = start();
+		guessedWord = garbleWord();
 		explainGame();
-
-		boolean correctWord = false;
-		int leftMistrials = 10;
-		char letter;
-		List<String> letters = new ArrayList<>();
-		String guessedWord = garbleWord(word);
-
+		
 		while (!correctWord && leftMistrials > 0) {
 			letter = scan.next().toLowerCase().charAt(0);
 			String newGuessedWord = "";
 
 			// When the letter is entered the first time, then do this part.
-			if (checkIfNewLetter(letters, letter)) {
+			if (checkIfNewLetter()) {
 				letters.add(letter + "");
 				// Checking if the letter was correct and change the guessed word accordingly.
 				for (int j = 0; j < word.length(); j++) {
@@ -59,7 +60,7 @@ public class Galgenmaennchen {
 		scan.close();
 	}
 	
-	private String start(Scanner scan) {
+	private String start() {
 		System.out.println("Welcome to the game 'Galgenmaennchen'!");
 
 		System.out.println("Please let the game host enter a word first:");
@@ -76,7 +77,7 @@ public class Galgenmaennchen {
 		System.out.println("Letter\t\tOutput\t\tLeft mistrials");
 	}
 	
-	private String garbleWord(String word) {
+	private String garbleWord() {
 		String guessedWord = "";
 		
 		for (int i = 0; i < word.length(); i++) {
@@ -90,9 +91,9 @@ public class Galgenmaennchen {
 		return guessedWord;
 	}
 	
-	private boolean checkIfNewLetter(List<String> letters, char c) {
+	private boolean checkIfNewLetter() {
 		for (int i = 0; i < letters.size(); i++) {
-			if (letters.get(i).equals(c + "")) {
+			if (letters.get(i).equals(letter + "")) {
 				System.out.println("You already entered this letter!");
 				return false;
 			}
